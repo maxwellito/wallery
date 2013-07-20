@@ -284,7 +284,7 @@ class Map {
 			$html_content .= "height:". ($current_element['height'] - $marge_div) ."px;";
 			$html_content .= "' >";
 
-			$html_content .= "<a href='http://www.maxwellito.com".$current_img->attached."' rel='facebox'>";
+			$html_content .= "<a href='".$current_img->attached."' rel='facebox'>";
 
 			$html_content .= "<img src='".$current_img->url."' ";
 			$html_content .= "style='";

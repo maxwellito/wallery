@@ -254,7 +254,7 @@
   function fillFaceboxFromImage(href, klass) {
     var image = new Image()
     image.onload = function() {
-      $.facebox.reveal('<div class="image"><img src="' + image.src + '"  style="max-width:'+img_mw+'px;max-height:'+img_mh+'px;" /></div>', klass)
+      $.facebox.reveal('<div class="image"><img src="' + image.src + '" /></div>', klass)
     }
     image.src = href
   }
@@ -277,7 +277,7 @@
       .css('opacity', $.facebox.settings.opacity)
       .click(function() { $(document).trigger('close.facebox') })
       .fadeIn(200)
-      stop_navigation();
+      myWallery.stopNavigation();
     return false
   }
 
@@ -288,7 +288,7 @@
       $("#facebox_overlay").removeClass("facebox_overlayBG")
       $("#facebox_overlay").addClass("facebox_hide")
       $("#facebox_overlay").remove()
-      play_navigation();
+      myWallery.playNavigation();
     })
 
     return false

@@ -1,10 +1,9 @@
 /*
- * Wallery
- * version: 0.1 (20/01/2011)
+ * wallery
+ * version: 0.2 (20/07/2013)
  * @requires jQuery v1.2 or later
  * @requires custom facebox
  *
- * Copyright 2011 Maxwellito (maxwellito.com)
  *
  */
 

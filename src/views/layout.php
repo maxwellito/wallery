@@ -10,34 +10,35 @@
 	<!-- Script JS -->
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/facebox.js"></script>
-	<script type="text/javascript" src="js/gallery_script.js"></script>
+	<script type="text/javascript" src="js/wallery.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 	
 	
 	<!-- Styles CSS -->
-	<link rel="stylesheet" href="css/style.css" type="text/css" />
 	<link rel="stylesheet" href="css/facebox.css" type="text/css" />
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
 	<style rel="stylesheet" type="text/css" >
 		.map {
 			width: 	<?=$wllr_config['map_width'];  ?>px;
 			height: <?=$wllr_config['map_height']; ?>px;
 		}
 
-		#map0 {
+		.map0 {
 			top:	0px;
 			left:	0px;
 		}
 
-		#map1 {
+		.map1 {
 			top:	0px;
 			left:	<?=$wllr_config['map_width'];?>px;
 		}
 		
-		#map2 {
+		.map2 {
 			top:	<?=$wllr_config['map_height'];?>px;
 			left:	0px;
 		}
 		
-		#map3 {
+		.map3 {
 			top:	<?=$wllr_config['map_height'];?>px;
 			left:	<?=$wllr_config['map_width'];?>px;
 		}
@@ -46,6 +47,7 @@
 </head>
 <body>
 	
+	<!-- Intro divs -->
 	<div id="intro">
 		<p id="intro_title">welcome in the wallery.</p>
 		<p id="intro_desc">this script generate a wall of pictures with random positions.<br/>
@@ -59,10 +61,13 @@
 		Sorry, it's not made for smartphones & tablets.
 	</div>
 	
-	<div id="map0" class="map"><?=$wllr->rendering(true); ?></div>
-	<div id="map1" class="map"><?=$wllr->rendering(true); ?></div>
-	<div id="map2" class="map"><?=$wllr->rendering(true); ?></div>
-	<div id="map3" class="map"><?=$wllr->rendering(true); ?></div>
+	<!-- Wallery div -->
+	<div id="wallery">
+		<div class="map map0"><?=$wllr->rendering(true); ?></div>
+		<div class="map map1"><?=$wllr->rendering(true); ?></div>
+		<div class="map map2"><?=$wllr->rendering(true); ?></div>
+		<div class="map map3"><?=$wllr->rendering(true); ?></div>		
+	</div>
 	
 	<div id="warning">Your window is too big for us, sorry.<br>Please reduce the size of your browser.</div>
 
