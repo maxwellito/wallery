@@ -2,24 +2,25 @@
 
 /* 
  * Picture list (midgetPicture, pictureWidth, pictureHeight, pictureLink)
- * This the data format used in the Wallery class
+ * This is the data format used in the Wallery class
+ * All the pictures are provided from maxwellito.com
  *
  *
  * Structure :
  *
- * - midgetPicture:	link to the midget picture
- *					this picture will be displayed in the wallery
+ * [0] midgetPicture:	link to the midget picture
+ *						this picture will be displayed in the wallery
  *
- * - pictureWidth:	width of the midget picture
- * 					in pixels
+ * [1] pictureWidth:	width of the midget picture
+ * 						in pixels
  *
- * - pictureHeight:	height of the midget picture
- * 					in pixels
+ * [2] pictureHeight:	height of the midget picture
+ * 						in pixels
  *
- * - pictureLink:	link of the picture in the real size
- * 					but this can be modified, because this information is
- *					placed in the objet Image and used in the method 'rendering'
- *					of the class Map to make the final rendering.
+ * [3] pictureLink:		link of the picture in the real size
+ * 						but this can be modified, because this information is
+ *			    		placed in the objet Image and used in the method 'rendering'
+ *					    of the class Map to make the final rendering.
  */
 
 $wallery_data = array (	
@@ -103,6 +104,5 @@ $wallery_data = array (
 	array(	"data/21_8.jpg", 	180, 	120, 	"http://maxwellito.com/media/maxwellito_v1/data/2010_11_05_lomography/ss_008.jpg"),
 	array(	"data/22_1.jpg", 	120, 	116, 	"http://maxwellito.com/media/maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg"), 
 	array(	"data/22_2.jpg", 	195, 	261, 	"http://maxwellito.com/media/maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg"),
-	array(	"data/22_3.jpg", 	322, 	280, 	"http://maxwellito.com/media/maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg") );
-
-?>
+	array(	"data/22_3.jpg", 	322, 	280, 	"http://maxwellito.com/media/maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg")
+);

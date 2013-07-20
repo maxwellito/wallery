@@ -1,10 +1,13 @@
-WALLERY 1.0
-===========
+wallery
+=======
 
-Wallery is a little PHP script made to generate a wall of picture. You give a list of pictures with the link and dimensions and the script will made a wall of the size you want.
+Wall + Gallery = Wallery
+
+Wallery is a little PHP script made to generate a map of picture. You give a list of pictures (with URL and dimensions) and the script will made a wall of the size you want.
+Combined to a frontend to create an infinite wall. Based on 4 maps, the javascript class move the pictures to give the impression of an infinite wall.
 
 This repository content an exemple of usage (with pictures).
-http://maxwellito.com/media/wallery
+http://maxwellito.com/media/wallery/
 
 Usage
 -----
@@ -14,11 +17,12 @@ You need to create a Wallery object with :
 - the size of a unite (it's the size of the small square in the mozaic)
 - the width of the map
 - the height of the map
-- the size of the border of each element
 
 
-Exemple
--------
+Future improuvements
+--------------------
 
-In the exemple, we generate 4 map of 3000x2000px and we can navigate with a script (based on jQuery).
-
+Review algorith code of the Wallery (PHP) class : too heavy
+Use an anonymous function to make the rendering of each image.
+Transform the JavaScript class into a jQuery plugin
+Review the alerts in the JavaScript class
