@@ -28,6 +28,9 @@ div.img_container:hover, div.img_container:active {
 
 img {
 	position: relative;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 .map {
@@ -37,21 +40,14 @@ img {
 /** 
  * Intro
  */
-#intro, #intro_info {
+#intro {
 	position: fixed; display: none;
-	width: 400px; padding: 15px 0;
+	top: 50px; left: -5px;
+	width: 400px;
+	margin-left: 15px; 
 	z-index: 100;
 	word-wrap: break-word;
 	cursor: pointer;
-}
-
-#intro {
-	top: 50px; left: -5px;
-}
-
-#intro_info {
-	bottom: 50px; right: 10px;
-	text-align: right;
 }
 
 #intro_title {
@@ -62,8 +58,7 @@ img {
 	cursor: pointer;
 }
 
-#intro_desc, #intro_info {
-	margin: 20px 0 0 15px; 
+#intro_desc {
 	color: #FFF; font-family: Helvetica, Arial; font-size: 12px;
 	cursor: pointer;
 }

@@ -278,24 +278,14 @@ class Map {
 
 			// Pattern for an image
 			$html_content .= "<div class='img_container' style='";
-			$html_content .= "left: " . ($current_element['pos_x'] + $border) . "px;";
-			$html_content .= "top: " . ($current_element['pos_y'] + $border) . "px;";
-			$html_content .= "width:". ($current_element['width'] - $marge_div) ."px;";
-			$html_content .= "height:". ($current_element['height'] - $marge_div) ."px;";
-			$html_content .= "' >";
-
-			$html_content .= "<a href='".$current_img->attached."' rel='facebox'>";
-
-			$html_content .= "<img src='".$current_img->url."' ";
-			$html_content .= "style='";
+			$html_content .= "left: " 	. ($current_element['pos_x']  + $border) . "px;";
+			$html_content .= "top: " 	. ($current_element['pos_y']  + $border) . "px;";
+			$html_content .= "width:"	. ($current_element['width']  - $marge_div) ."px;";
+			$html_content .= "height:"	. ($current_element['height'] - $marge_div) ."px;";
+			$html_content .= "background-image: url(".$current_img->url.");";			
+			$html_content .= "background-position: -".$image_x."px -".$image_y. "px; ";
 			$html_content .= "display:none;";
-			$html_content .= "right:".$image_x. "px;";
-			$html_content .= "bottom:" .$image_y. "px;' ";
-			$html_content .= "/>";
-
-			$html_content .= "</a>";
-
-			$html_content .= "</div>";
+			$html_content .= "' ></div>";
 		}
 
 		return $html_content;

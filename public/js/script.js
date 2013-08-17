@@ -4,25 +4,26 @@
  */
 
 // Create global objects
-var myWallery;
-var myWallerySettings = {el: '#wallery'};
+var myWallery = '#wallery';
 
 // Event to call the start function
 $(document).ready(function(){
 
 	// Display the intro
-	$("#intro, #intro_info")
+	$("#intro")
 		.delay(400)
 		.slideDown("normal")
 		.click( function(){
-			$("#intro, #intro_info")
+			$("#intro")
 				.slideUp("normal")
 				.delay(400)
 				.queue(function() {
-					myWallery.start();
+					$(myWallery).wallery({	navigation:	'drag',
+											dev:		true,
+											intro:		true,
+											click:		function(e){console.log('wallery: click');} });
 				});
 		});
 
-	myWallery = new Wallery(myWallerySettings);
-	$('a[rel*=facebox]').facebox();
+	// $('a[rel*=facebox]').facebox();
 });

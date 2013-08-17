@@ -9,6 +9,7 @@
 	
 	<!-- Script JS -->
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/wallery.jQuery.js"></script>
 	<script type="text/javascript" src="js/facebox.js"></script>
 	<script type="text/javascript" src="js/wallery.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
@@ -22,26 +23,6 @@
 			width: 	<?=$wllr_config['map_width'];  ?>px;
 			height: <?=$wllr_config['map_height']; ?>px;
 		}
-
-		.map0 {
-			top:	0px;
-			left:	0px;
-		}
-
-		.map1 {
-			top:	0px;
-			left:	<?=$wllr_config['map_width'];?>px;
-		}
-		
-		.map2 {
-			top:	<?=$wllr_config['map_height'];?>px;
-			left:	0px;
-		}
-		
-		.map3 {
-			top:	<?=$wllr_config['map_height'];?>px;
-			left:	<?=$wllr_config['map_width'];?>px;
-		}
 	</style>
 	
 </head>
@@ -50,15 +31,14 @@
 	<!-- Intro divs -->
 	<div id="intro">
 		<p id="intro_title">welcome in the wallery.</p>
-		<p id="intro_desc">this script generate a wall of pictures with random positions.<br/>
-						move your mouse to navigate.<br/>
-						<u>click to enter.</u></p>	
-	</div>
-	
-	<div id="intro_info">
-		Wait the complete loading of the page before enter.<br/>
-		We recommand to use Safari, Firefox or Chrome.<br/>
-		Sorry, it's not made for smartphones & tablets.
+		<p id="intro_desc">
+			this script generate a wall of pictures with random positions.<br/>
+			move your drag the wall to navigate.<br/>
+			Wait the complete loading of the page before enter.<br/>
+			We recommand to use Safari, Firefox or Chrome.<br/>
+			Actually anything than Internet Explorer<br/>
+			<u>click to enter</u>
+		</p>
 	</div>
 	
 	<!-- Wallery div -->
