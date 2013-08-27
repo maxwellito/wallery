@@ -13,6 +13,6 @@ WalleryBuilder settings :
 	unit:		Size of a unit, in pixels
 	mapWidth:	Width of the map in pixels
 	mapHeight:	Height of the map in pixels
-	fin
+	occupation:	Percentage of map occupation (between 0 and 1)
 
 

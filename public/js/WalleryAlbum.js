@@ -30,7 +30,7 @@ function WalleryAlbum ( unite ) {
 WalleryAlbum.prototype.addImage = function ( image ) {
 		
 	// Security test
-	if ( !image.update_unite(this.unite) )
+	if ( !image.updateUnite(this.unite) )
 		return false;
 	
 	// Add the picture in the library
@@ -42,6 +42,16 @@ WalleryAlbum.prototype.addImage = function ( image ) {
 	
 	// Everything is OK
 	return true;
+};
+
+/**
+ * Reset the usemeter of all the picture of the album instance
+ */
+WalleryAlbum.prototype.resetUsemeter = function () {
+	
+	for (var i in this.portfolio) {
+		this.portfolio[i].resetUsemeter();
+	}
 };
 	
 /**
@@ -64,6 +74,8 @@ WalleryAlbum.prototype.sortIt = function () {
  * @param	string	prefix		Prefix before the display of each line
  */
 WalleryAlbum.prototype.display = function ( prefix ) {
+
+	prefix = prefix === undefined ? '' : prefix;
 
 	console.log(prefix + "Class Album");
 	console.log(prefix + "unite :  " + this.unite);

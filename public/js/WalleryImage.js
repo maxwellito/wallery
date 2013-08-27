@@ -19,7 +19,7 @@ function WalleryImage (url, widthPx, heightPx, attached) {
 	this.heightUnit		= 0;
 	this.size			= 0;
 
-	this.useCount		= 0;
+	this.usemeter		= 0;
 	this.url			= url;
 	
 	// Attached object
@@ -32,7 +32,7 @@ function WalleryImage (url, widthPx, heightPx, attached) {
  * @param	int		unite	Update the image size in unit
  * @return	boolean			True if it's ok
  */
-WalleryImage.prototype.update_unite = function ( unite ) {
+WalleryImage.prototype.updateUnite = function ( unite ) {
 		
 	// Settings test
 	if ( unite > this.widthPx || unite > this.heightPx ) {
@@ -48,6 +48,30 @@ WalleryImage.prototype.update_unite = function ( unite ) {
 	
 	return true;
 };
+
+/**
+ * Reset the usemeter of the instance
+ */
+WalleryImage.prototype.resetUsemeter = function () {
+
+	this.usemeter = 0;
+};
+
+/**
+ * Increment usemeter
+ */
+WalleryImage.prototype.incUsemeter = function () {
+	
+	this.usemeter += 1;
+};
+
+/**
+ * Get usemeter value
+ */
+WalleryImage.prototype.getUsemeter = function () {
+	
+	return this.usemeter;
+};
 	
 
 /* Debug *****************************************************************/
@@ -62,11 +86,11 @@ WalleryImage.prototype.display = function ( prefix ) {
 	
 	console.log(prefix + "widthPx:    " + this.widthPx);
 	console.log(prefix + "heightPx:   " + this.heightPx);
-	console.log(prefix + "widht_unit: " + this.widthUnit);
+	console.log(prefix + "widhtUnit:  " + this.widthUnit);
 	console.log(prefix + "heightUnit: " + this.heightUnit);
 	
 	console.log(prefix + "size:       " + this.size);
-	console.log(prefix + "useCount:   " + this.useCount);
+	console.log(prefix + "usemeter:   " + this.usemeter);
 	console.log(prefix + "url:        " + this.url);
 
 	console.log('---');

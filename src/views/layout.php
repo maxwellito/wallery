@@ -14,6 +14,22 @@
 	<script type="text/javascript" src="js/wallery.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
 	
+	<script type="text/javascript" src="js/WalleryBuilder.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+	<script type="text/javascript" src="js/WalleryMap.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+	<script type="text/javascript" src="js/WalleryAlbum.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+	<script type="text/javascript" src="js/WalleryImage.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+
+	<script type="text/javascript">
+		wallData = <?=json_encode($wallery_data); ?>;
+
+		var pizza = new WalleryBuilder( {	unite: 50, 
+											mapWidth: 3000, 
+											mapHeight: 2000 });
+		pizza.addStack(wallData);
+		pizza.generate(true);
+
+	</script>
+
 	
 	<!-- Styles CSS -->
 	<link rel="stylesheet" href="css/facebox.css" type="text/css" />

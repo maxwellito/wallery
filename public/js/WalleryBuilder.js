@@ -6,24 +6,21 @@
  * The image database need an image with the dimensions of 1x1 unit
  *
  * @param	Array	settings 
- *				int		'unite'			Bloc size in pixel
- *				int		'mapWidth'		Map width in pixel
- *				int		'mapHeight'		Map height in pixel
- *				array	'data'			Array of picture data (:src/data/data.php)
+ *				int			'unite'			Bloc size in pixel
+ *				int			'mapWidth'		Map width in pixel
+ *				int			'mapHeight'		Map height in pixel
+ *				boolean		'crop'			Allow to crop your image (default: true)
+ *				function	'template'		Template function
  */
 
-WalleryBuilder = function (settings) {
+function WalleryBuilder (settings) {
 	
 	/* Variables *************************************************************/
 		
 	// Tests
 	// Check if variables are set
-	if (!isset(settings['unite'])		|| !isset(settings['data']) ||
-		!isset(settings['mapWidth'])	|| !isset(settings['mapHeight']))
-		return false; //# DEV: Throw error
-
-	// Check if there's data
-	if (!is_array(settings['data']) || count(settings['data'])===0)
+	if (settings['unite'] === undefined		||
+		settings['mapWidth'] === undefined	|| settings['mapHeight'] === undefined)
 		return false; //# DEV: Throw error
 	
 	// Check unite and border
@@ -35,11 +32,11 @@ WalleryBuilder = function (settings) {
 		return false; //# DEV: Throw error
 		
 	// Everything is OK
-	this.imagesBase			= settings['data'];
 	this.unite				= settings['unite'];
 	this.mapWidthPx			= settings['mapWidth'];
 	this.mapHeightPx		= settings['mapHeight'];
 	this.border				= 2; //# TO_REMOVE
+	this.crop				= settings['crop'] !== undefined ? settings['crop'] : true;
 	
 	this.isGenerated		= false;
 
@@ -47,15 +44,49 @@ WalleryBuilder = function (settings) {
 	this.nbRandTentatives	= 5;	// Number of try to find a place
 	
 	// Map creation
-	var mapWidthUnit		= ceil( settings['mapWidth'] /this.unite );
-	var mapHeightUnit		= ceil( settings['mapHeight']/this.unite );
+	var mapWidthUnit		= Math.ceil( settings['mapWidth'] /this.unite );
+	var mapHeightUnit		= Math.ceil( settings['mapHeight']/this.unite );
+	this.map				= new WalleryMap( this.unite, mapWidthUnit, mapHeightUnit );
 
-	this.map = new WalleryMap ();
-	this.map.initialisation( this.unite, mapWidthUnit, mapHeightUnit );
-	
-	return true;
+	// Album creation
+	this.album				= new WalleryAlbum(this.unite);
+}
+
+
+/* Interface *****************************************************************/
+
+/**
+ * Add an image in the album
+ * @param int		width	Image width (in pixels)
+ * @param int		height	Image height (in pixels)
+ * @param string	url		Image url
+ * @param *			object	Free object about the picture (and will be accessible in the rendering)
+ */
+WalleryBuilder.prototype.addImage = function (width, height, url, object) {
+
+	var image = new WalleryImage(width, height, url, object);
+	if (image !== false)
+		this.album.addImage(image);
 };
-	
+
+/**
+ * Add a stack of pictures in one function
+ * @param	array	stack	Array of image data
+ */
+WalleryBuilder.prototype.addStack = function (stack) {
+
+	// Check if there's data
+	if (stack === undefined || stack.length === undefined || stack.length === 0)
+		return false; //# DEV: Throw error
+
+	var imageData;
+	for (var imageIndex in stack) {
+		// Creation of the object Image and adding in the Album
+		imageData = stack[imageIndex];
+		this.addImage(imageData[0], imageData[1], imageData[2], imageData[3]);
+	}
+};
+
 /**
  * Setter for the try level
  * 
@@ -108,143 +139,120 @@ WalleryBuilder.prototype.rendering = function (generate) {
  */
 WalleryBuilder.prototype.generate = function () {
 
-	var i, j, isPlaced, currentImg, nbTry, positionStart;
-	var theOne, positionToTry, lastChance, limitFreeSpace, imageDisplayed;
-
-	// Treatement of images and fill the Album
-	////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
-	var album = new WalleryAlbum();
-	album.initialisation( this.unite );
-	
-	var image, imageSrc;
-	for (var imageSrcIndex in this.imagesBase) {
-		
-		// Creation of the object Image and adding in the Album
-		imageSrc = this.imagesBase[imageSrcIndex];
-		image = new WalleryImage();
-		if (image.initialisation( imageSrc[0], imageSrc[1], imageSrc[2], imageSrc[3] ))
-			album.addImage(image);
-	}
-	
 	// Sort the album (descending)
-	album.sortIt();
+	this.album.sortIt();
+	this.album.resetUsemeter();
 	
+	// First pass of map filling
+	this.massMapFilling();
+
+	console.log('-------------------------------------------');
+
+	// Fill the blank 
+	this.mapBlankSpaceFilling();
+
+	this.map.displayMap();
+
+	// Final step
+	this.isGenerated = true;
+};
+
+/**
+ * Fill the map when we start from blank
+ * This is also the first step of the map filling
+ * Here we set the picture randomly (with a number of try), 
+ * if it doesn't fit, we don't set it.
+ * 
+ * @return void
+ */
+WalleryBuilder.prototype.massMapFilling = function () {
 	
+	var nbAff, currentImg, placesAvailable;
+
 	// Get the number of displaying of each image
-	////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
+	nbAff = Math.ceil( this.map.size * ((this.unite - this.marge) / this.unite) / this.album.size ) - 1;
 	
-	var nb_aff = ceil( this.map.size * ((this.unite - this.marge) / this.unite) / album.size ) - 1;
-	
-	for (i in album.portfolio.length) {
-		album.portfolio[i].use_count = nb_aff;
-	}
-	
-	
-	// We begin to put image in the map
-	////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////
-	
-	// Premier traitement
-	for (i in album.portfolio.length) {
+	for (var i in this.album.portfolio) {
 		
 		// Get the image to put
-		currentImg = album.portfolio[i];
+		currentImg = this.album.portfolio[i];
 		
 		// Number of try (for the random solution)
-		nbTry = currentImg.use_count;
+		placesAvailable = true;
 		
-		while (currentImg.use_count !== 0) {
+		while (currentImg.getUsemeter() < nbAff && placesAvailable) {
 			
-			// Random test to find a place on the map
-			isPlaced = false;
+			if (this.map.putToRandomPlace(currentImg, nbAff) === false) {
 			
-			while ( !isPlaced && (nbTry > 0) ) {
-				
-				nbTry--;
-				positionToTry = this.map.getRandomPlace( currentImg.width_unit, currentImg.height_unit );
-				isPlaced = this.map.placeCheck(	positionToTry['x'],
-												positionToTry['y'],
-												currentImg.width_unit,
-												currentImg.height_unit);
-			}
-			
-			// If place has been find we put the image
-			// Else we try manually (but it need more ressources and time)
-			if (isPlaced) {
-				
-				this.map.putImage(	currentImg,
-									positionToTry['x'],
-									positionToTry['y'],
-									currentImg.width_unit,
-									currentImg.height_unit );
-				
-			} else {
-			
-				// In this case the random case hasn't been nice with us
-				// => We gonna find a place manually
-				lastChance = this.map.findPlace( currentImg.width_unit, currentImg.height_unit );
-				
-				if (lastChance) {
-				
-					theOne = rand(0, count(lastChance)-1);
-					this.map.putImage(	currentImg,
-										lastChance[theOne]['x'],
-										lastChance[theOne]['y'],
-										currentImg.width_unit,
-										currentImg.height_unit);
-										
-				} else {
-				
-					currentImg.use_count = 0;
+				if (this.map.forceRandomPlace(currentImg) === false) {
+					// Stop the loop: there's no more free space
+					placesAvailable = false;
 				}
 			}
 		}
 	}
-	
-	
+};
+
+/**
+ * Fill the rest of blank space.
+ * This time the algorithm need to get the list of 
+ * possible free position in a map to put a image
+ *  
+ * @return void
+ */
+WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
+
+	var i, positionStart, limitFreeSpace, currentImg, lastChance, theOne, imageDisplayed;
+
 	// Basically, we just have to fill the blank
 	positionStart	= 0;
-	limitFreeSpace	= ceil(this.map.size * (this.marge/this.unite));
+	limitFreeSpace	= Math.ceil(this.map.size * (this.marge/this.unite));
 	i				= 0;
+
+	var j = 0;
 	
-	while ( this.map.free_space >= limitFreeSpace  &&  positionStart < count(album.portfolio) ) {
+	while ( this.map.freeSpace >= limitFreeSpace  &&  positionStart < this.album.portfolio.length ) {
 		
 		// Récupération de l'image a placer
-		currentImg = album.portfolio[i];
+		currentImg = this.album.portfolio[i];
 		
 		// In this case the random case hasn't been nice with us
 		// => We gonna find a place manually
-		lastChance = this.map.findPlace( currentImg.width_unit, currentImg.height_unit );
+		lastChance = this.map.findPlace( currentImg.widthUnit, currentImg.heightUnit, 5 );
+
+		if (lastChance !== false) {
 		
-		if (lastChance) {
-		
-			theOne = rand(0, count(lastChance)-1);
+			// theOne = rand(0, lastChance.length -1);
+			theOne = Math.ceil(Math.random() * lastChance.length) % lastChance.length;
 			
 			// Random funtion
-			imageDisplayed = album.portfolio[rand(0, i)];
-			while (imageDisplayed.width_unit < currentImg.width_unit || imageDisplayed.height_unit < currentImg.height_unit) {
-				imageDisplayed = album.portfolio[rand(0, i)];
+			//# DEV : Find a better way to get a random position in an array
+			if (this.crop) {
+				// Crop allowed, let's find a good picture
+				imageDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
+				while (imageDisplayed.widthUnit < currentImg.widthUnit || imageDisplayed.heightUnit < currentImg.heightUnit) {
+					imageDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
+				}
 			}
-			
+			else {
+				// Crop not allowed, let's use the current index
+				imageDisplayed = currentImg;
+			}
+
 			this.map.putImage(	imageDisplayed,
 								lastChance[theOne]['x'],
 								lastChance[theOne]['y'],
-								currentImg.width_unit,
-								currentImg.height_unit);
+								currentImg.widthUnit,
+								currentImg.heightUnit);
 		} else {
 		
 			positionStart = i + 1;
 		}
-		
-		if ( i + 1 == count(album.portfolio) ) {
-			i = positionStart;
-		} else {
-			i++;
-		}
+
+		// Increment
+		i = (i+1 == this.album.portfolio.length) ? positionStart : i+1;
 	}
-	
-	// Final step
-	this.isGenerated = true;
 };
+
+
+
