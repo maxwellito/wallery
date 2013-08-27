@@ -256,7 +256,6 @@ WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 			if (placeWidth*placeHeight === 0) return;
 		}
 
-		// Increment
 		i++;
 		if (!this.crop && i == this.album.portfolio.length) return;
 	}
