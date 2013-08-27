@@ -231,8 +231,8 @@ WalleryMap.prototype.findPlace = function (width, height, amountMax) {
 	var combinaisons = [];
 	amountMax = (amountMax === undefined || amountMax < 1) ? this.size : amountMax;
 
-	for (x = 0; x + width < this.width; x++) {
-		for (y = 0; y + height < this.height; y++) {
+	for (x = 0; x + width <= this.width; x++) {
+		for (y = 0; y + height <= this.height; y++) {
 			if (this.placeCheck(x, y, width, height)) {
 				combinaisons.push({	x:	x,
 									y:	y });

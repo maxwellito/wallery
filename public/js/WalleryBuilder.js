@@ -202,55 +202,63 @@ WalleryBuilder.prototype.massMapFilling = function () {
  */
 WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 
-	var i, positionStart, limitFreeSpace, currentImg, lastChance, theOne, imageDisplayed;
+	var i, limitFreeSpace, freePositionsList, thePosition, imageDisplayed;
+	var placeWidth, placeHeight;
 
-	// Basically, we just have to fill the blank
-	positionStart	= 0;
-	limitFreeSpace	= Math.ceil(this.map.size * (this.marge/this.unite));
 	i				= 0;
+	limitFreeSpace	= Math.ceil(this.map.size * (this.marge/this.unite));
 
-	var j = 0;
-	
-	while ( this.map.freeSpace >= limitFreeSpace  &&  positionStart < this.album.portfolio.length ) {
+	while (this.map.freeSpace >= limitFreeSpace) {
 		
 		// Récupération de l'image a placer
-		currentImg = this.album.portfolio[i];
-		
+		if (i < this.album.portfolio.length) {
+			placeWidth  = this.album.portfolio[i].widthUnit;
+			placeHeight = this.album.portfolio[i].heightUnit;
+		}
+
 		// In this case the random case hasn't been nice with us
 		// => We gonna find a place manually
-		lastChance = this.map.findPlace( currentImg.widthUnit, currentImg.heightUnit, 5 );
+		freePositionsList = this.map.findPlace( placeWidth, placeHeight, 5 );
 
-		if (lastChance !== false) {
+		console.log(placeWidth, placeHeight, freePositionsList);
+
+		if (freePositionsList !== false) {
 		
-			// theOne = rand(0, lastChance.length -1);
-			theOne = Math.ceil(Math.random() * lastChance.length) % lastChance.length;
+			// thePosition = rand(0, freePositionsList.length -1);
+			thePosition = Math.ceil(Math.random() * freePositionsList.length) % freePositionsList.length;
 			
 			// Random funtion
 			//# DEV : Find a better way to get a random position in an array
 			if (this.crop) {
 				// Crop allowed, let's find a good picture
-				imageDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
-				while (imageDisplayed.widthUnit < currentImg.widthUnit || imageDisplayed.heightUnit < currentImg.heightUnit) {
+				imageDisplayed = this.album.getImageBiggerThan(placeWidth, placeHeight);
+				while (imageDisplayed.widthUnit < placeWidth || imageDisplayed.heightUnit < placeHeight) {
 					imageDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
 				}
 			}
 			else {
 				// Crop not allowed, let's use the current index
-				imageDisplayed = currentImg;
+				imageDisplayed = this.album.portfolio[i];
 			}
 
 			this.map.putImage(	imageDisplayed,
-								lastChance[theOne]['x'],
-								lastChance[theOne]['y'],
-								currentImg.widthUnit,
-								currentImg.heightUnit);
-		} else {
-		
-			positionStart = i + 1;
+								freePositionsList[thePosition]['x'],
+								freePositionsList[thePosition]['y'],
+								placeWidth,
+								placeHeight);
+		}
+		else if (i > this.album.portfolio.length) {
+			//# DEV: Find a better algo : if (placeWidth/placeHeight > this.mapWidth/this.mapHeight) {
+			if (placeWidth>placeHeight)
+				placeWidth--;
+			else
+				placeHeight--;
+			if (placeWidth*placeHeight === 0) return;
 		}
 
 		// Increment
-		i = (i+1 == this.album.portfolio.length) ? positionStart : i+1;
+		i++;
+		if (!this.crop && i == this.album.portfolio.length) return;
 	}
 };
 
