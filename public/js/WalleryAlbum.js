@@ -65,6 +65,45 @@ WalleryAlbum.prototype.sortIt = function () {
 	this.isSorted = true;
 	return;
 };
+
+/**
+ * Get a random image from the album which the dimensions
+ * are bigger than given
+ *
+ * @param	int		width	Min image width in unit
+ * @param	int		height	Min image height in unit
+ * @return	*				An WalleryImage object, or false if nothing is available
+ */
+WalleryAlbum.prototype.getImageBiggerThan = function (width, height) {
+		
+	var list = this.getImageListBiggerThan(width, height);
+	if (list === false)
+		return false;
+	else
+		return list[ Math.ceil(Math.random()*list.length)%list.length ];
+};
+
+/**
+ * Get a list of imagea from the album 
+ * which the dimensions are bigger than given
+ *
+ * @param	int		width	Min image width in unit
+ * @param	int		height	Min image height in unit
+ * @return	array			An Array full of WalleryImage objects
+ */
+WalleryAlbum.prototype.getImageListBiggerThan = function (width, height) {
+		
+	var list = [];
+	var currentImg;
+
+	for(var index in this.portfolio) {
+		currentImg = this.portfolio[index];
+		if (currentImg.widthUnit >= width && currentImg.heightUnit >= height)
+			list.push(currentImg);
+	}
+	return list;
+};
+
 	
 	
 /* Debug *****************************************************************/
