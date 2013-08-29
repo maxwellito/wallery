@@ -95,7 +95,7 @@ WalleryMap.prototype.placeCheck = function (posX, posY, width, height) {
 /**
  * Method to put an image 
  * 
- * @param	array	pictureData	Object image 
+ * @param	array	pictureData		Object image 
  * @param	int		posX			Position on X where to put the image (in units)
  * @param	int		posY			Position on Y where to put the image (in units)
  * @param	int		width			Width of the place to put the image (in units)
@@ -278,26 +278,27 @@ WalleryMap.prototype.rendering = function (margin) {
 	var margeDiv		= border * 2;
 	var htmlContent		= "";
 
-	var i, imageX, imageY, currentElement, currentImg;
+	var i, imageX, imageY, place, item, itemData;
 	for (i in this.result) {
 
 		// Init
-		currentElement	= this.result[i];
-		currentImg		= currentElement['image'];
+		place		= this.result[i];
+		item		= place['image'];
+		itemData	= item.attached;
 
-		imageX = Math.ceil(Math.random() * (currentImg.widthPx - currentElement['width'] + border));
-		imageY = Math.ceil(Math.random() * (currentImg.heightPx - currentElement['height'] + border));
+		imageX = Math.ceil(Math.random() * (item.widthPx  - place['width']  + border));
+		imageY = Math.ceil(Math.random() * (item.heightPx - place['height'] + border));
 
 		imageX += border;
 		imageY += border;
 
 		// Pattern for an image
 		htmlContent += "<div class='imgContainer' style='";
-		htmlContent += "left: "	+ (currentElement['posX']  + border) + "px;";
-		htmlContent += "top: "		+ (currentElement['posY']  + border) + "px;";
-		htmlContent += "width:"	+ (currentElement['width']  - margeDiv) +"px;";
-		htmlContent += "height:"	+ (currentElement['height'] - margeDiv) +"px;";
-		htmlContent += "background-image: url("+currentImg['url']+");";
+		htmlContent += "left: "		+ (place['posX']	+ border)	+ "px;";
+		htmlContent += "top: "		+ (place['posY']	+ border)	+ "px;";
+		htmlContent += "width:"		+ (place['width']	- margeDiv)	+ "px;";
+		htmlContent += "height:"	+ (place['height']	- margeDiv)	+ "px;";
+		htmlContent += "background-image: url("+itemData.pictureSrc+");";
 		htmlContent += "background-position: -"+imageX+"px -"+imageY+ "px; ";
 		htmlContent += "display:none;";
 		htmlContent += "' ></div>";

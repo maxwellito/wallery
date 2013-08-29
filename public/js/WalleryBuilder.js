@@ -59,12 +59,11 @@ function WalleryBuilder (settings) {
  * Add an image in the album
  * @param int		width	Image width (in pixels)
  * @param int		height	Image height (in pixels)
- * @param string	url		Image url
  * @param *			object	Free object about the picture (and will be accessible in the rendering)
  */
-WalleryBuilder.prototype.addImage = function (width, height, url, object) {
+WalleryBuilder.prototype.addImage = function (width, height, object) {
 
-	var image = new WalleryImage(width, height, url, object);
+	var image = new WalleryImage(width, height, object);
 	if (image !== false)
 		this.album.addImage(image);
 };
@@ -83,7 +82,7 @@ WalleryBuilder.prototype.addStack = function (stack) {
 	for (var imageIndex in stack) {
 		// Creation of the object Image and adding in the Album
 		imageData = stack[imageIndex];
-		this.addImage(imageData[0], imageData[1], imageData[2], imageData[3]);
+		this.addImage(imageData[0], imageData[1], imageData[2]);
 	}
 };
 

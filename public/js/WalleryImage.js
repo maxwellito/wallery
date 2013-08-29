@@ -4,13 +4,12 @@
  * This class contain all the information about an image
  * 
  *
- * @param	string	url			URL of the image
- * @param	int		widthPx	Image width in pixels
+ * @param	int		widthPx		Image width in pixels
  * @param	int		heightPx	Image height in pixels
  * @param	object	attached	Attached data object (not required)
  */
 
-function WalleryImage (url, widthPx, heightPx, attached) {
+function WalleryImage (widthPx, heightPx, attached) {
 		
 	// Set the dimensions (px and unit) and size (unit)
 	this.widthPx		= widthPx;
@@ -20,7 +19,6 @@ function WalleryImage (url, widthPx, heightPx, attached) {
 	this.size			= 0;
 
 	this.usemeter		= 0;
-	this.url			= url;
 	
 	// Attached object
 	this.attached		= attached;
