@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="js/WalleryBuilder.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
 	<script type="text/javascript" src="js/WalleryMap.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
 	<script type="text/javascript" src="js/WalleryAlbum.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
-	<script type="text/javascript" src="js/WalleryImage.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+	<script type="text/javascript" src="js/WalleryItem.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
 
 	<script type="text/javascript">
 		wallData = [	

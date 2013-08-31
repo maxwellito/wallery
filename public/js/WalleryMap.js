@@ -93,17 +93,17 @@ WalleryMap.prototype.placeCheck = function (posX, posY, width, height) {
 };
 
 /**
- * Method to put an image 
+ * Method to put an item 
  * 
- * @param	array	pictureData		Object image 
- * @param	int		posX			Position on X where to put the image (in units)
- * @param	int		posY			Position on Y where to put the image (in units)
- * @param	int		width			Width of the place to put the image (in units)
- * @param	int		height			Height of the place to put the image (in units) 
- * @param	boolean	testr			Do we need to check if the place is free before to put the image ?
- * @return	boolean					True if it's a success
+ * @param	WalleryItem	item			Item to set		 
+ * @param	int			posX			Position on X where to put the item (in units)
+ * @param	int			posY			Position on Y where to put the item (in units)
+ * @param	int			width			Width of the place to put the item (in units)
+ * @param	int			height			Height of the place to put the item (in units) 
+ * @param	boolean		testr			Do we need to check if the place is free before to put the item ?
+ * @return	boolean						True if it's a success
  */
-WalleryMap.prototype.putImage = function (pictureData, posX, posY, width, height, testr) {
+WalleryMap.prototype.putItem = function (item, posX, posY, width, height, testr) {
 	
 	// Security tests
 	if ( testr === true ) {
@@ -116,8 +116,8 @@ WalleryMap.prototype.putImage = function (pictureData, posX, posY, width, height
 	}
 
 	// Set default values
-	if (width === undefined)	width	= pictureData.widthUnit;
-	if (height === undefined)	height	= pictureData.heightUnit;
+	if (width === undefined)	width	= item.widthUnit;
+	if (height === undefined)	height	= item.heightUnit;
 	
 	// Treatement
 	var i, j;
@@ -127,38 +127,38 @@ WalleryMap.prototype.putImage = function (pictureData, posX, posY, width, height
 		}
 	}
 	
-	// Get the size of the image put in place
+	// Get the size of the item put in place
 	size = width * height;
 	
 	// Update the free space of the map
 	this.freeSpace -= size;
 	
-	// Add this image in the result array
-	this.result.push({	image		: pictureData,
+	// Add this item in the result array
+	this.result.push({	item		: item,
 						posX		: (posX * this.unite),
 						posY		: (posY * this.unite),
 						width		: (width * this.unite),
 						height		: (height * this.unite) });
 	
-	// Update the image counter
-	pictureData.incUsemeter();
+	// Update the item counter
+	item.incUsemeter();
 	
 	// Everything is OK
 	return true;
 };
 	
 /**
- * Put the picture into a random place
- * The algorithm accept 2 params : the picture to place and the number of tentatives
+ * Put an item into a random place
+ * The algorithm accept 2 params : the item to place and the number of tentatives
  * We get a random position on the map, try if it fit
  * if so we place it.
  * otherwise we try again (and this for the amount of try we set)
  * 
- * @param	WalleryImage object		image			Image object to place
+ * @param	WalleryItem object		item			Item object to place
  * @param	int						nbTentatives	Number of tentative before to fail 
  * @return	array									Position or false
  */
-WalleryMap.prototype.putToRandomPlace = function (image, nbTentatives) {
+WalleryMap.prototype.putToRandomPlace = function (item, nbTentatives) {
 	
 	// Random test to find a place on the map
 	var positionToTry;
@@ -167,18 +167,18 @@ WalleryMap.prototype.putToRandomPlace = function (image, nbTentatives) {
 	while ( !isPlaced && (nbTentatives > 0) ) {
 		
 		nbTentatives--;
-		positionToTry	= this.getRandomPlace( image.widthUnit, image.heightUnit );
+		positionToTry	= this.getRandomPlace( item.widthUnit, item.heightUnit );
 		isPlaced		= this.placeCheck(	positionToTry['x'],
 											positionToTry['y'],
-											image.widthUnit,
-											image.heightUnit);
+											item.widthUnit,
+											item.heightUnit);
 	}
 	
-	// If place has been find we put the image
+	// If place has been find we put the item
 	// Else we try manually (but it need more ressources and time)
 	if (isPlaced) {
 		
-		this.putImage(	image,
+		this.putItem(	item,
 						positionToTry['x'],
 						positionToTry['y']);
 
@@ -189,26 +189,26 @@ WalleryMap.prototype.putToRandomPlace = function (image, nbTentatives) {
 };
 
 /**
- * This method force to place a picture in the map
+ * This method force to place an item in the map
  * The first step is to get all the free combinaisons available
  * then choose one randomly to place the object
  * then we return the position.
  * If there's no space, we return false.
  * 
- * @param	WalleryImage object		image			Image object to place
+ * @param	WalleryItem object		item			Item object to place
  * @return	array									Position or false
  */
-WalleryMap.prototype.forceRandomPlace = function (image) {
+WalleryMap.prototype.forceRandomPlace = function (item) {
 
 	// In this case the random case hasn't been nice with us
 	// => We gonna find a place manually
-	var positionsList = this.findPlace( image.widthUnit, image.heightUnit );
+	var positionsList = this.findPlace( item.widthUnit, item.heightUnit );
 	
 	if (positionsList === false)
 		return false;
 	
 	var theOne = Math.ceil(Math.random() * positionsList.length) % positionsList.length;
-	this.putImage(	image,
+	this.putItem(	item,
 					positionsList[theOne]['x'],
 					positionsList[theOne]['y']);
 
@@ -217,11 +217,11 @@ WalleryMap.prototype.forceRandomPlace = function (image) {
 
 /**
  * Method to find a place in this map
- * You just have to give the width and height of the image to put in the map.
+ * You just have to give the width and height of the item to put in the map.
  * It will return an array with the position availables
  * 
- * @param	int		width			Width of the place to put the image (in units)
- * @param	int		height			Height of the place to put the image (in units) 
+ * @param	int		width			Width of the place to put the item (in units)
+ * @param	int		height			Height of the place to put the item (in units) 
  * @param	int		amountMax		Maximum amount of result returned (min: 1)
  * @return	array					List of free positions [{x(int), y(int)}]
  */
@@ -254,10 +254,10 @@ WalleryMap.prototype.findPlace = function (width, height, amountMax) {
 /**
  * Method to get a random place in the map
  * But warning, the place can be taken
- * The setting are the dimensions of the image you want to put
+ * The setting are the dimensions of the item you want to put
  * 
- * @param	int		width			Width of the place to put the image (in units)
- * @param	int		height			Height of the place to put the image (in units) 
+ * @param	int		width			Width of the place to put the item (in units)
+ * @param	int		height			Height of the place to put the item (in units) 
  * @return	array					The random position {x(int), y(int)}
  */
 WalleryMap.prototype.getRandomPlace = function (width, height) {
@@ -278,28 +278,28 @@ WalleryMap.prototype.rendering = function (margin) {
 	var margeDiv		= border * 2;
 	var htmlContent		= "";
 
-	var i, imageX, imageY, place, item, itemData;
+	var i, itemX, itemY, place, item, itemData;
 	for (i in this.result) {
 
 		// Init
 		place		= this.result[i];
-		item		= place['image'];
+		item		= place['item'];
 		itemData	= item.attached;
 
-		imageX = Math.ceil(Math.random() * (item.widthPx  - place['width']  + border));
-		imageY = Math.ceil(Math.random() * (item.heightPx - place['height'] + border));
+		itemX = Math.ceil(Math.random() * (item.widthPx  - place['width']  + border));
+		itemY = Math.ceil(Math.random() * (item.heightPx - place['height'] + border));
 
-		imageX += border;
-		imageY += border;
+		itemX += border;
+		itemY += border;
 
-		// Pattern for an image
+		// Pattern for an item
 		htmlContent += "<div class='imgContainer' style='";
 		htmlContent += "left: "		+ (place['posX']	+ border)	+ "px;";
 		htmlContent += "top: "		+ (place['posY']	+ border)	+ "px;";
 		htmlContent += "width:"		+ (place['width']	- margeDiv)	+ "px;";
 		htmlContent += "height:"	+ (place['height']	- margeDiv)	+ "px;";
 		htmlContent += "background-image: url("+itemData.pictureSrc+");";
-		htmlContent += "background-position: -"+imageX+"px -"+imageY+ "px; ";
+		htmlContent += "background-position: -"+itemX+"px -"+itemY+ "px; ";
 		htmlContent += "display:none;";
 		htmlContent += "' ></div>";
 	}

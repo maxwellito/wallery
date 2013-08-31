@@ -1,15 +1,16 @@
 
 /**
- * Image class
- * This class contain all the information about an image
+ * Item class
+ * This class contain all the information about 
+ * a displayable item.
  * 
  *
- * @param	int		widthPx		Image width in pixels
- * @param	int		heightPx	Image height in pixels
+ * @param	int		widthPx		Item width in pixels
+ * @param	int		heightPx	Item height in pixels
  * @param	object	attached	Attached data object (not required)
  */
 
-function WalleryImage (widthPx, heightPx, attached) {
+function WalleryItem (widthPx, heightPx, attached) {
 		
 	// Set the dimensions (px and unit) and size (unit)
 	this.widthPx		= widthPx;
@@ -27,21 +28,21 @@ function WalleryImage (widthPx, heightPx, attached) {
 	
 /**
  * Update a unit value
- * @param	int		unite	Update the image size in unit
+ * @param	int		unite	Update the item size in unit
  * @return	boolean			True if it's ok
  */
-WalleryImage.prototype.updateUnite = function ( unite ) {
+WalleryItem.prototype.updateUnite = function ( unite ) {
 		
 	// Settings test
 	if ( unite > this.widthPx || unite > this.heightPx ) {
 		return false;
 	}
 	
-	// Get the dimentions of the images in units
+	// Get the dimentions of the item in units
 	this.widthUnit	= Math.floor(this.widthPx / unite);
 	this.heightUnit	= Math.floor(this.heightPx / unite);
 	
-	// Get the size of the image in square unit
+	// Get the size of the item in square unit
 	this.size = this.widthUnit * this.heightUnit;
 	
 	return true;
@@ -50,7 +51,7 @@ WalleryImage.prototype.updateUnite = function ( unite ) {
 /**
  * Reset the usemeter of the instance
  */
-WalleryImage.prototype.resetUsemeter = function () {
+WalleryItem.prototype.resetUsemeter = function () {
 
 	this.usemeter = 0;
 };
@@ -58,7 +59,7 @@ WalleryImage.prototype.resetUsemeter = function () {
 /**
  * Increment usemeter
  */
-WalleryImage.prototype.incUsemeter = function () {
+WalleryItem.prototype.incUsemeter = function () {
 	
 	this.usemeter += 1;
 };
@@ -66,7 +67,7 @@ WalleryImage.prototype.incUsemeter = function () {
 /**
  * Get usemeter value
  */
-WalleryImage.prototype.getUsemeter = function () {
+WalleryItem.prototype.getUsemeter = function () {
 	
 	return this.usemeter;
 };
@@ -75,12 +76,12 @@ WalleryImage.prototype.getUsemeter = function () {
 /* Debug *****************************************************************/
 
 /**
- * Display a picture information
+ * Display an item information
  * @param	string	prefix		Prefix before the display of each line
  */
-WalleryImage.prototype.display = function ( prefix ) {
+WalleryItem.prototype.display = function ( prefix ) {
 	
-	console.log(prefix + "Class Image");
+	console.log(prefix + "Class WalleryItem");
 	
 	console.log(prefix + "widthPx:    " + this.widthPx);
 	console.log(prefix + "heightPx:   " + this.heightPx);

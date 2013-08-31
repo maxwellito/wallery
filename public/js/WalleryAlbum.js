@@ -1,7 +1,6 @@
 /**
  * Class Album
- * This class contain the list of images to display in the map.
- * It can evolve te can contain more information about pictures.
+ * This class contain the list of items to display in the map.
  * Basically, it's just a big Array.
  * But it's cleaner..
  *
@@ -23,29 +22,29 @@ function WalleryAlbum ( unite ) {
 }
 
 /**
- * To add an image in the album
+ * To add an item in the album
  * 
- * @param	image object	image	Image object to add in the collection
+ * @param	WalleryItem object	item	Item object to add in the collection
  */
-WalleryAlbum.prototype.addImage = function ( image ) {
+WalleryAlbum.prototype.addItem = function ( item ) {
 		
 	// Security test
-	if ( !image.updateUnite(this.unite) )
+	if ( !item.updateUnite(this.unite) )
 		return false;
 	
-	// Add the picture in the library
-	this.portfolio.push(image);
+	// Add the item in the library
+	this.portfolio.push(item);
 	
 	// Album update
 	this.isSorted = false;
-	this.size += image.size;
+	this.size += item.size;
 	
 	// Everything is OK
 	return true;
 };
 
 /**
- * Reset the usemeter of all the picture of the album instance
+ * Reset the usemeter of all the item of the album instance
  */
 WalleryAlbum.prototype.resetUsemeter = function () {
 	
@@ -55,7 +54,7 @@ WalleryAlbum.prototype.resetUsemeter = function () {
 };
 	
 /**
- * Sort images in the order for a future treatment
+ * Sort items in the order for a future treatment
  */
 WalleryAlbum.prototype.sortIt = function () {
 		
@@ -67,16 +66,16 @@ WalleryAlbum.prototype.sortIt = function () {
 };
 
 /**
- * Get a random image from the album which the dimensions
+ * Get a random item from the album which the dimensions
  * are bigger than given
  *
- * @param	int		width	Min image width in unit
- * @param	int		height	Min image height in unit
- * @return	*				An WalleryImage object, or false if nothing is available
+ * @param	int		width	Min item width in unit
+ * @param	int		height	Min item height in unit
+ * @return	*				An WalleryItem object, or false if nothing is available
  */
-WalleryAlbum.prototype.getImageBiggerThan = function (width, height) {
+WalleryAlbum.prototype.getItemBiggerThan = function (width, height) {
 		
-	var list = this.getImageListBiggerThan(width, height);
+	var list = this.getItemListBiggerThan(width, height);
 	if (list === false)
 		return false;
 	else
@@ -84,14 +83,14 @@ WalleryAlbum.prototype.getImageBiggerThan = function (width, height) {
 };
 
 /**
- * Get a list of imagea from the album 
+ * Get a list of items from the album 
  * which the dimensions are bigger than given
  *
- * @param	int		width	Min image width in unit
- * @param	int		height	Min image height in unit
- * @return	array			An Array full of WalleryImage objects
+ * @param	int		width	Min item width in unit
+ * @param	int		height	Min item height in unit
+ * @return	array			An Array full of WalleryItem objects
  */
-WalleryAlbum.prototype.getImageListBiggerThan = function (width, height) {
+WalleryAlbum.prototype.getItemListBiggerThan = function (width, height) {
 		
 	var list = [];
 	var currentImg;
@@ -120,7 +119,7 @@ WalleryAlbum.prototype.display = function ( prefix ) {
 	console.log(prefix + "unite :  " + this.unite);
 	console.log(prefix + "size :   " + this.size);
 	
-	// Display all the informations of the images in the library
+	// Display all the informations of the items in the library
 	for (var i in this.portfolio) {
 		this.portfolio[i].display("    ");
 	}

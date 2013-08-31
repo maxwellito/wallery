@@ -2,14 +2,12 @@
  * Wallery class
  * This class content all the informations and algorithms about a wall
  *
- * WARNING :
- * The image database need an image with the dimensions of 1x1 unit
  *
  * @param	Array	settings 
  *				int			'unite'			Bloc size in pixel
  *				int			'mapWidth'		Map width in pixel
  *				int			'mapHeight'		Map height in pixel
- *				boolean		'crop'			Allow to crop your image (default: true)
+ *				boolean		'crop'			Allow to crop your item (default: true)
  *				function	'template'		Template function
  */
 
@@ -56,21 +54,21 @@ function WalleryBuilder (settings) {
 /* Interface *****************************************************************/
 
 /**
- * Add an image in the album
- * @param int		width	Image width (in pixels)
- * @param int		height	Image height (in pixels)
- * @param *			object	Free object about the picture (and will be accessible in the rendering)
+ * Add an item in the album
+ * @param int		width	Item width (in pixels)
+ * @param int		height	Item height (in pixels)
+ * @param *			object	Free object about the item (and will be accessible in the rendering)
  */
-WalleryBuilder.prototype.addImage = function (width, height, object) {
+WalleryBuilder.prototype.addItem = function (width, height, object) {
 
-	var image = new WalleryImage(width, height, object);
-	if (image !== false)
-		this.album.addImage(image);
+	var item = new WalleryItem(width, height, object);
+	if (item !== false)
+		this.album.addItem(item);
 };
 
 /**
- * Add a stack of pictures in one function
- * @param	array	stack	Array of image data
+ * Add a stack of items in one function
+ * @param	array	stack	Array of item data
  */
 WalleryBuilder.prototype.addStack = function (stack) {
 
@@ -78,11 +76,11 @@ WalleryBuilder.prototype.addStack = function (stack) {
 	if (stack === undefined || stack.length === undefined || stack.length === 0)
 		return false; //# DEV: Throw error
 
-	var imageData;
-	for (var imageIndex in stack) {
-		// Creation of the object Image and adding in the Album
-		imageData = stack[imageIndex];
-		this.addImage(imageData[0], imageData[1], imageData[2]);
+	var itemData;
+	for (var itemIndex in stack) {
+		// Creation of the object item and adding in the Album
+		itemData = stack[itemIndex];
+		this.addItem(itemData[0], itemData[1], itemData[2]);
 	}
 };
 
@@ -159,7 +157,7 @@ WalleryBuilder.prototype.generate = function () {
 /**
  * Fill the map when we start from blank
  * This is also the first step of the map filling
- * Here we set the picture randomly (with a number of try), 
+ * Here we set the items randomly (with a number of try), 
  * if it doesn't fit, we don't set it.
  * 
  * @return void
@@ -168,12 +166,12 @@ WalleryBuilder.prototype.massMapFilling = function () {
 	
 	var nbAff, currentImg, placesAvailable;
 
-	// Get the number of displaying of each image
+	// Get the number of displaying of each item
 	nbAff = Math.ceil( this.map.size * ((this.unite - this.marge) / this.unite) / this.album.size ) - 1;
 	
 	for (var i in this.album.portfolio) {
 		
-		// Get the image to put
+		// Get the item to put
 		currentImg = this.album.portfolio[i];
 		
 		// Number of try (for the random solution)
@@ -195,13 +193,13 @@ WalleryBuilder.prototype.massMapFilling = function () {
 /**
  * Fill the rest of blank space.
  * This time the algorithm need to get the list of 
- * possible free position in a map to put a image
+ * possible free position in a map to put a item
  *  
  * @return void
  */
 WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 
-	var i, limitFreeSpace, freePositionsList, thePosition, imageDisplayed;
+	var i, limitFreeSpace, freePositionsList, thePosition, itemDisplayed;
 	var placeWidth, placeHeight;
 
 	i				= 0;
@@ -209,7 +207,7 @@ WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 
 	while (this.map.freeSpace >= limitFreeSpace) {
 		
-		// Récupération de l'image a placer
+		// Get the place dimensions we are looking for
 		if (i < this.album.portfolio.length) {
 			placeWidth  = this.album.portfolio[i].widthUnit;
 			placeHeight = this.album.portfolio[i].heightUnit;
@@ -229,18 +227,18 @@ WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 			// Random funtion
 			//# DEV : Find a better way to get a random position in an array
 			if (this.crop) {
-				// Crop allowed, let's find a good picture
-				imageDisplayed = this.album.getImageBiggerThan(placeWidth, placeHeight);
-				while (imageDisplayed.widthUnit < placeWidth || imageDisplayed.heightUnit < placeHeight) {
-					imageDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
+				// Crop allowed, let's find a good item
+				itemDisplayed = this.album.getItemBiggerThan(placeWidth, placeHeight);
+				while (itemDisplayed.widthUnit < placeWidth || itemDisplayed.heightUnit < placeHeight) {
+					itemDisplayed = this.album.portfolio[Math.ceil(Math.random() * i)];
 				}
 			}
 			else {
 				// Crop not allowed, let's use the current index
-				imageDisplayed = this.album.portfolio[i];
+				itemDisplayed = this.album.portfolio[i];
 			}
 
-			this.map.putImage(	imageDisplayed,
+			this.map.putItem(	itemDisplayed,
 								freePositionsList[thePosition]['x'],
 								freePositionsList[thePosition]['y'],
 								placeWidth,
