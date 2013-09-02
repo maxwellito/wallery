@@ -272,26 +272,35 @@ WalleryMap.prototype.getRandomPlace = function (width, height) {
  * @param	int		margin		Margin in pixel
  * @return	string				HTML rendered
  */
-WalleryMap.prototype.rendering = function (margin) {
+WalleryMap.prototype.rendering = function (tplFunction) {
 
-	var border			= margin === undefined ? 0 : margin;
-	var margeDiv		= border * 2;
-	var htmlContent		= "";
+	var htmlContent	= "";
+	var place, tplData;
 
-	var i, itemX, itemY, place, item, itemData;
-	for (i in this.result) {
+	for (var i in this.result) {
 
-		// Init
-		place		= this.result[i];
-		item		= place['item'];
-		itemData	= item.attached;
+		place = this.result[i];
 
-		itemX = Math.ceil(Math.random() * (item.widthPx  - place['width']  + border));
-		itemY = Math.ceil(Math.random() * (item.heightPx - place['height'] + border));
+		tplData = {
+			place: {
+				posX:	place['posX'],
+				posY:	place['posY'],
+				width:	place['width'],
+				height: place['height']
+			},
+			item: {
+				width:	place['item'].widthPx,
+				height:	place['item'].heightPx,
+			},
+			data:		place['item'].attached
+		};
 
-		itemX += border;
-		itemY += border;
+		tplData.item.posX = Math.ceil(Math.random() * (tplData.item.width  - tplData.place.width  ));
+		tplData.item.posY = Math.ceil(Math.random() * (tplData.item.height - tplData.place.height ));
 
+		htmlContent += tplFunction(tplData);
+
+		/*
 		// Pattern for an item
 		htmlContent += "<div class='imgContainer' style='";
 		htmlContent += "left: "		+ (place['posX']	+ border)	+ "px;";
@@ -302,6 +311,7 @@ WalleryMap.prototype.rendering = function (margin) {
 		htmlContent += "background-position: -"+itemX+"px -"+itemY+ "px; ";
 		htmlContent += "display:none;";
 		htmlContent += "' ></div>";
+		*/
 	}
 
 	return htmlContent;

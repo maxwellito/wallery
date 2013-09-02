@@ -143,12 +143,8 @@ WalleryBuilder.prototype.generate = function () {
 	// First pass of map filling
 	this.massMapFilling();
 
-	console.log('-------------------------------------------');
-
 	// Fill the blank 
 	this.mapBlankSpaceFilling();
-
-	this.map.displayMap();
 
 	// Final step
 	this.isGenerated = true;
@@ -216,8 +212,6 @@ WalleryBuilder.prototype.mapBlankSpaceFilling = function () {
 		// In this case the random case hasn't been nice with us
 		// => We gonna find a place manually
 		freePositionsList = this.map.findPlace( placeWidth, placeHeight, 5 );
-
-		console.log(placeWidth, placeHeight, freePositionsList);
 
 		if (freePositionsList !== false) {
 		

@@ -9,6 +9,7 @@
 	
 	<!-- Script JS -->
 	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
 	<script type="text/javascript" src="js/wallery.jQuery.js"></script>
 	<script type="text/javascript" src="js/facebox.js"></script>
 	<script type="text/javascript" src="js/wallery.js"></script>
@@ -18,6 +19,15 @@
 	<script type="text/javascript" src="js/WalleryMap.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
 	<script type="text/javascript" src="js/WalleryAlbum.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
 	<script type="text/javascript" src="js/WalleryItem.js?t=<?=$_SERVER['REQUEST_TIME'];?>"></script>
+
+	<script type="text/template" id="template_wallery_item">
+		<div class='imgContainer' style='
+			left: <%=place.posX %>px;	top: <%=place.posY %>px;
+			width: <%=place.width %>px;	height:<%=place.height %>px;
+			background-image: url(<%=data.pictureSrc %>);
+			background-position: -<%=item.posX %>px -<%=item.posY %>px; display:none;' >
+		</div>
+	</script>
 
 	<script type="text/javascript">
 		wallData = [	
@@ -105,14 +115,21 @@
 		];
 
 		//wallData = <?=json_encode($wallery_data); ?>;
-
 		var pizza = new WalleryBuilder( {	unite: 50, 
 											mapWidth: 3000, 
 											mapHeight: 2000 });
 		pizza.addStack(wallData);
-		pizza.generate(true);
+		pizza.generate();
+		console.log(
+		pizza.map.rendering(function(data){
 
+			var tpl = _.template( $('#template_wallery_item').html() );
+			return tpl(data);
+
+		}));
 	</script>
+
+	
 
 	
 	<!-- Styles CSS -->
