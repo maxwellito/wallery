@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<!-- Meta -->
+	<title>wallery demo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Le style -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+	
+	<!-- Le styles -->
+	<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="js/vendor/underscore.min.js"></script>
+
+	<script type="text/javascript" src="js/class/wallery.jQuery.js"></script>
+	<script type="text/javascript" src="js/class/WalleryBuilder.js"></script>
+	<script type="text/javascript" src="js/class/WalleryMap.js"></script>
+	<script type="text/javascript" src="js/class/WalleryAlbum.js"></script>
+	<script type="text/javascript" src="js/class/WalleryItem.js"></script>
+
+	<script type="text/javascript" src="js/data/dummy.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+
+	<!-- item template -->
+	<!-- 4px are removed on width and height, just to have a nice border -->
+	<script type="text/template" id="template_wallery_item">
+		<div class='img_container' style='
+			left: <%=place.posX %>px;	top: <%=place.posY %>px;
+			width: <%=place.width -4 %>px;	height:<%=place.height -4 %>px;
+			background-image: url(<%=data.pictureSrc %>);
+			background-position: -<%=item.posX %>px -<%=item.posY %>px; display:none;' >
+		</div>
+	</script>
+
+</head>
+<body>
+	
+	<!-- Intro divs -->
+	<div id="intro">
+		<p id="intro_title">welcome in the wallery.</p>
+		<p id="intro_desc">
+			this script generate a wall of pictures with random positions.<br/>
+			move your drag the wall to navigate.<br/>
+			Wait the complete loading of the page before enter.<br/>
+			We recommand to use Safari, Firefox or Chrome.<br/>
+			Actually anything than Internet Explorer<br/>
+			<u>click to enter</u>
+		</p>
+	</div>
+	
+	<!-- Wallery div -->
+	<div id="wallery">
+		<!-- <div class="map map0"> ..content.. </div> -->		
+	</div>
+	
+	<div id="warning">Your window is too big for us, sorry.<br>Please reduce the size of your browser.</div>
+
+</body>
+</html>
