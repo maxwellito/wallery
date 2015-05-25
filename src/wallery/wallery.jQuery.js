@@ -33,7 +33,9 @@
 				var opt = options;
 				opt.el = this;
 
-				new WalleryControl(opt).start();
+				new WalleryControl()
+					.init(opt)
+					.start();
 
 			});
 		}
@@ -52,8 +54,7 @@
  *
  */
 
-var WalleryControl = function (settings)
-{
+var WalleryControl = function () {
 
 	/* jQuery object of the wallery DOM element
 	 *
@@ -132,10 +133,10 @@ var WalleryControl = function (settings)
 	this.init = function (settings) {
 
 		// Param tests
-		if (settings['el'] === undefined)
+		if (settings.el === undefined)
 			return;
 
-		this.el = $(settings['el']);
+		this.el = $(settings.el);
 		this.options = settings;
 
 		// DOM tests
@@ -153,6 +154,7 @@ var WalleryControl = function (settings)
 						[this.el.children('.map2'), this.el.children('.map3')]];
 
 		this.moveMap(0, 0);
+		return this;
 	},
 
 
@@ -505,10 +507,8 @@ var WalleryControl = function (settings)
 	 * @return	void
 	 */
 	this.log = function (message) {
-		if (this.options.dev)
+		if (this.options.dev) {
 			console.log('wallery log: ' + message);
-	},
-
-	// Initiate the object
-	this.init(settings);
+		}
+	};
 };

@@ -120,7 +120,7 @@ WalleryMap.prototype.putItem = function (item, posX, posY, width, height, testr)
 	if (height === undefined)	height	= item.heightUnit;
 	
 	// Treatement
-	var i, j;
+	var i, j, size;
 	for (i=0; i<width; i++) {
 		for (j=0; j<height; j++) {
 			this.table[posX + i][posY + j] = true;
@@ -168,8 +168,8 @@ WalleryMap.prototype.putToRandomPlace = function (item, nbTentatives) {
 		
 		nbTentatives--;
 		positionToTry	= this.getRandomPlace( item.widthUnit, item.heightUnit );
-		isPlaced		= this.placeCheck(	positionToTry['x'],
-											positionToTry['y'],
+		isPlaced		= this.placeCheck(	positionToTry.x,
+											positionToTry.y,
 											item.widthUnit,
 											item.heightUnit);
 	}
@@ -179,8 +179,8 @@ WalleryMap.prototype.putToRandomPlace = function (item, nbTentatives) {
 	if (isPlaced) {
 		
 		this.putItem(	item,
-						positionToTry['x'],
-						positionToTry['y']);
+						positionToTry.x,
+						positionToTry.y);
 
 		return positionToTry;
 	}
@@ -209,8 +209,8 @@ WalleryMap.prototype.forceRandomPlace = function (item) {
 	
 	var theOne = Math.ceil(Math.random() * positionsList.length) % positionsList.length;
 	this.putItem(	item,
-					positionsList[theOne]['x'],
-					positionsList[theOne]['y']);
+					positionsList[theOne].x,
+					positionsList[theOne].y);
 
 	return positionsList[theOne];
 };
@@ -274,7 +274,7 @@ WalleryMap.prototype.getRandomPlace = function (width, height) {
  */
 WalleryMap.prototype.rendering = function (tplFunction) {
 
-	var htmlContent	= "";
+	var wrapper	= document.createElement('div');
 	var place, tplData;
 
 	for (var i in this.result) {
@@ -283,25 +283,25 @@ WalleryMap.prototype.rendering = function (tplFunction) {
 
 		tplData = {
 			place: {
-				posX:	place['posX'],
-				posY:	place['posY'],
-				width:	place['width'],
-				height: place['height']
+				posX:	place.posX,
+				posY:	place.posY,
+				width:	place.width,
+				height: place.height
 			},
 			item: {
-				width:	place['item'].widthPx,
-				height:	place['item'].heightPx,
+				width:	place.item.widthPx,
+				height:	place.item.heightPx,
 			},
-			data:		place['item'].attached
+			data:		place.item.attached
 		};
 
 		tplData.item.posX = Math.ceil(Math.random() * (tplData.item.width  - tplData.place.width  ));
 		tplData.item.posY = Math.ceil(Math.random() * (tplData.item.height - tplData.place.height ));
 
-		htmlContent += tplFunction(tplData);
+		wrapper.appendChild(tplFunction(tplData));
 	}
 
-	return htmlContent;
+	return wrapper;
 };
 
 	

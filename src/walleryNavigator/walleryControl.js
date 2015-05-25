@@ -86,10 +86,10 @@ var Wallery = function (settings)
 	this.init = function (settings) {
 
 		// Param tests
-		if (settings['el'] === undefined)
+		if (settings.el === undefined)
 			return;
 
-		this.el = $(settings['el']);
+		this.el = $(settings.el);
 		this.options = settings;
 
 		// DOM tests
