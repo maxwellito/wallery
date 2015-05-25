@@ -1,0 +1,19 @@
+{
+  "name": "wallery",
+  "version": "1.0.0",
+  "description": "Generate a map from a list of displayable elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxwellito/wallery.git"
+  },
+  "author": "maxwellito",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxwellito/wallery/issues"
+  },
+  "homepage": "https://github.com/maxwellito/wallery#readme"
+}
