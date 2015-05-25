@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/maxwellito/wallery/issues"
   },
-  "homepage": "https://github.com/maxwellito/wallery#readme"
+  "homepage": "https://github.com/maxwellito/wallery#readme",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-header": "^1.2.2",
+    "gulp-imports": "0.0.3",
+    "gulp-jshint": "^1.11.0",
+    "gulp-karma": "0.0.4",
+    "gulp-uglify": "^1.2.0",
+    "karma": "^0.12.32"
+  }
 }
