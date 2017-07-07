@@ -2,243 +2,284 @@
 <html lang="en">
 <head>
 
-	<!-- Meta -->
-	<title>wallery demo</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Meta -->
+  <title>wallery demo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Le style -->
-	<style type="text/css">
-		/** 
-		 * Wallery stylesheet
-		 * 
-		 */
+  <!-- Le style -->
+  <style type="text/css">
+    /** 
+     * Wallery stylesheet
+     * 
+     */
 
-		html, body { height: 100%; }
+    html, body { height: 100%; }
 
-		body {
-			overflow: hidden;
-			padding: 0; margin: 0;
-			color: #000; font-family: monospace;
-			background-color: #000;
-		}
+    body {
+      overflow: hidden;
+      padding: 0; margin: 0;
+      color: #000; font-family: monospace;
+      background-color: #000;
+    }
 
-		#wallery {
-			position: relative; overflow: hidden;
-			width: 100%; height: 100%;
-		}
+    #wallery {
+      position: relative; overflow: hidden;
+      width: 100%; height: 100%;
+    }
 
-		div.img_container {
-			position: absolute; overflow: hidden; 
-			opacity: 0.8; background-color: #000;
-		}
+    div.img_container {
+      position: absolute; overflow: hidden; 
+      opacity: 0.8; background-color: #000;
+    }
 
-		div.img_container:hover, div.img_container:active {
-			opacity: 1;
-		}
+    div.img_container:hover, div.img_container:active {
+      opacity: 1;
+    }
 
-		img {
-			position: relative;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			user-select: none;
-		}
+    img {
+      position: relative;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
 
-		.map {
-			position: absolute;
-		}
+    .map {
+      position: absolute;
+    }
 
-		/** 
-		 * Intro
-		 */
-		#intro {
-			position: fixed; display: none;
-			top: 50px; left: -5px;
-			width: 400px;
-			margin-left: 15px; 
-			z-index: 100;
-			word-wrap: break-word;
-			cursor: pointer;
-		}
+    /** 
+     * Intro
+     */
+    #intro {
+      position: fixed; display: none;
+      top: 50px; left: -5px;
+      width: 400px;
+      margin-left: 15px; 
+      z-index: 100;
+      word-wrap: break-word;
+      cursor: pointer;
+    }
 
-		#intro_title {
-			padding: 0; margin: 0;
-			color: #FFF; font-family: Helvetica, Arial;
-			font-size: 96px; font-weight: bold;
-			letter-spacing: -9px; line-height: 80px;
-			cursor: pointer;
-		}
+    #intro_title {
+      padding: 0; margin: 0;
+      color: #FFF; font-family: Helvetica, Arial;
+      font-size: 96px; font-weight: bold;
+      letter-spacing: -9px; line-height: 80px;
+      cursor: pointer;
+    }
 
-		#intro_desc {
-			color: #FFF; font-family: Helvetica, Arial; font-size: 12px;
-			cursor: pointer;
-		}
+    #intro_desc {
+      color: #FFF; font-family: Helvetica, Arial; font-size: 12px;
+      cursor: pointer;
+    }
 
-		#warning {
-			position: fixed; display: none;
-			z-index: 10000; top: 0;
-			width: 100%; padding: 10px;
-			color: #FFF; text-align: center;
-			background-color: #F00; 
-		}
-	</style>
-	
-	<!-- Le script -->
-	<script type="text/javascript" src="dist/wallery.js"></script>
+    #warning {
+      position: fixed; display: none;
+      z-index: 10000; top: 0;
+      width: 100%; padding: 10px;
+      color: #FFF; text-align: center;
+      background-color: #F00; 
+    }
+  </style>
+
+  <!-- Vendors -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+  <!-- Le script -->
+  <script type="text/javascript" src="dist/wallery.js"></script>
+  <script type="text/javascript" src="dist/wallery.jQuery.js"></script>
 
 </head>
 <body>
-	
-	<!-- Intro divs -->
-	<div id="intro">
-		<p id="intro_title">welcome in the wallery.</p>
-		<p id="intro_desc">
-			this script generate a wall of pictures with random positions.<br/>
-			move your drag the wall to navigate.<br/>
-			Wait the complete loading of the page before enter.<br/>
-			We recommand to use Safari, Firefox or Chrome.<br/>
-			Actually anything than Internet Explorer<br/>
-			<u>click to enter</u>
-		</p>
-	</div>
-	
-	<!-- Wallery div -->
-	<div id="wallery">
-		<!-- <div class="map map0"> ..content.. </div> -->		
-	</div>
-	
-	<div id="warning">Your window is too big for us, sorry.<br>Please reduce the size of your browser.</div>
+  
+  <!-- Intro divs -->
+  <div id="intro">
+    <p id="intro_title">welcome to the wallery.</p>
+    <p id="intro_desc">
+      this script generate a wall of pictures with random positions.<br/>
+      move your drag the wall to navigate.<br/>
+      Wait the complete loading of the page before enter.<br/>
+      We recommand to use Safari, Firefox or Chrome.<br/>
+      Actually anything than Internet Explorer<br/>
+      <u>click to enter</u>
+    </p>
+  </div>
+  
+  <!-- Wallery div -->
+  <div id="wallery">
+    <!-- <div class="map map0"> ..content.. </div> -->    
+  </div>
+  
+  <div id="warning">Your window is too big for us, sorry.<br>Please reduce the size of your browser.</div>
 
-	<script type="text/javascript">
-		/**
-		 * Main script of the Wallery demo page
-		 * 
-		 */
+  <script type="text/javascript">
+    /**
+     * Main script of the Wallery demo page
+     * 
+     */
 
-		/* Create global objects
-		 */
-		var myWallery		= '#wallery';
-		var myWalleryUnit	= 100;
-		var myWalleryWidth	= 3000;
-		var myWalleryHeight = 2000;
+    /* Create global objects
+     */
+    var myWallery       = '#wallery';
+    var myWalleryUnit   = 100;
+    var myWalleryWidth  = 3000;
+    var myWalleryHeight = 2000;
 
 
-		/**
-		 * Template for item rendering
-		 * @param	Object	data	Template data object 
-		 * @return	DOMElement		Element representing the item
-		 */
-		function walleryItemTemplatr (space) {
-			var box = document.createElement('div');
-			box.className    = 'img_container';
-			box.style.left   = space.place.posX + 'px';
-			box.style.top    = space.place.posY + 'px';
-			box.style.width  = (space.place.width - 4) + 'px';
-			box.style.height = (space.place.height - 4) + 'px';
-			box.style.backgroundImage    = 'url(http://maxwellito.com/media/' + space.data.pictureSrc + ')';
-			box.style.backgroundPosition = '-' + space.item.posX + 'px -' + space.item.posY + 'px';
+    /**
+     * Template for item rendering
+     * @param Object  data  Template data object 
+     * @return  DOMElement    Element representing the item
+     */
+    function walleryItemTemplatr (space) {
+      var box = document.createElement('div');
+      box.className     = 'img_container';
+      box.style.left    = space.place.posX + 'px';
+      box.style.top     = space.place.posY + 'px';
+      box.style.width   = (space.place.width - 4) + 'px';
+      box.style.height  = (space.place.height - 4) + 'px';
+      box.style.display = 'none';
+      box.style.backgroundImage    = 'url(' + space.data.pictureSrc + ')';
+      box.style.backgroundPosition = '-' + space.item.posX + 'px -' + space.item.posY + 'px';
 
-			return box;
-		}
+      console.log(space.data.pictureSrc);
 
-		var wallData = [
-			[430, 156, {pictureSrc: "wallery/data/1_X.png",  link: "maxwellito_v1/data/2010_01_01_maxwellito/_main.png"}],
-			[431, 119, {pictureSrc: "wallery/data/2_1.jpg",  link: "maxwellito_v1/data/2009_06_07_freedomRecordTheme/_main.jpg"}],
-			[200, 323, {pictureSrc: "wallery/data/2_2.jpg",  link: "maxwellito_v1/data/2009_06_07_freedomRecordTheme/_main.jpg"}],
-			[314, 112, {pictureSrc: "wallery/data/3_1.jpg",  link: "maxwellito_v1/data/2009_01_01_jpsauvaire/ss_001.jpg"}],
-			[133, 343, {pictureSrc: "wallery/data/3_2.jpg",  link: "maxwellito_v1/data/2009_01_01_jpsauvaire/ss_001.jpg"}],
-			[258, 270, {pictureSrc: "wallery/data/3_3.jpg",  link: "maxwellito_v1/data/2009_01_01_jpsauvaire/ss_001.jpg"}],
-			[130, 118, {pictureSrc: "wallery/data/4_1.jpg",  link: "maxwellito_v1/data/2008_09_01_macOStouch/_main.jpg"}],
-			[324, 125, {pictureSrc: "wallery/data/4_2.jpg",  link: "maxwellito_v1/data/2008_09_01_macOStouch/ss_001.jpg"}],
-			[103, 239, {pictureSrc: "wallery/data/4_3.jpg",  link: "maxwellito_v1/data/2008_09_01_macOStouch/ss_002.jpg"}],
-			[225, 220, {pictureSrc: "wallery/data/4_4.jpg",  link: "maxwellito_v1/data/2008_09_01_macOStouch/ss_003.jpg"}],
-			[229, 105, {pictureSrc: "wallery/data/4_5.jpg",  link: "maxwellito_v1/data/2008_09_01_macOStouch/ss_004.jpg"}],
-			[106, 105, {pictureSrc: "wallery/data/5_1.png",  link: "maxwellito_v1/data/2008_05_09_daftPunkTab/_main.png"}],
-			[108, 104, {pictureSrc: "wallery/data/5_2.png",  link: "maxwellito_v1/data/2008_05_09_daftPunkTab/_main.png"}],
-			[420, 107, {pictureSrc: "wallery/data/5_3.png",  link: "maxwellito_v1/data/2008_05_09_daftPunkTab/_main.png"}],
-			[600, 148, {pictureSrc: "wallery/data/6_1.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_001.jpg"}],
-			[212, 342, {pictureSrc: "wallery/data/6_2.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_002.jpg"}],
-			[200, 204, {pictureSrc: "wallery/data/6_3.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_003.jpg"}],
-			[102, 207, {pictureSrc: "wallery/data/6_4.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_004.jpg"}],
-			[102, 302, {pictureSrc: "wallery/data/6_5.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_005.jpg"}],
-			[103, 103, {pictureSrc: "wallery/data/6_6.jpg",  link: "maxwellito_v1/data/2009_03_15_toulouse/ss_006.jpg"}],
-			[218, 219, {pictureSrc: "wallery/data/7_1.jpg",  link: "maxwellito_v1/data/2009_02_22_spaceInvaders/ss_001.jpg"}],
-			[222, 224, {pictureSrc: "wallery/data/7_2.jpg",  link: "maxwellito_v1/data/2009_02_22_spaceInvaders/ss_002.jpg"}],
-			[350, 202, {pictureSrc: "wallery/data/7_3.jpg",  link: "maxwellito_v1/data/2009_02_22_spaceInvaders/ss_003.jpg"}],
-			[447, 184, {pictureSrc: "wallery/data/8_1.jpg",  link: "maxwellito_v1/data/2007_04_13_paperMac/ss_001.jpg"}],
-			[110, 110, {pictureSrc: "wallery/data/8_2.jpg",  link: "maxwellito_v1/data/2007_04_13_paperMac/ss_002.jpg"}],
-			[120, 220, {pictureSrc: "wallery/data/8_3.jpg",  link: "maxwellito_v1/data/2007_04_13_paperMac/ss_003.jpg"}],
-			[110, 110, {pictureSrc: "wallery/data/8_4.jpg",  link: "maxwellito_v1/data/2007_04_13_paperMac/ss_004.jpg"}],
-			[240, 240, {pictureSrc: "wallery/data/9_1.jpg",  link: "maxwellito_v1/data/2007_01_01_oldShoots/ss_001.jpg"}],
-			[420, 222, {pictureSrc: "wallery/data/9_2.jpg",  link: "maxwellito_v1/data/2007_01_01_oldShoots/ss_002.jpg"}],
-			[120, 120, {pictureSrc: "wallery/data/9_4.jpg",  link: "maxwellito_v1/data/2007_01_01_oldShoots/ss_004.jpg"}],
-			[220, 220, {pictureSrc: "wallery/data/9_5.jpg",  link: "maxwellito_v1/data/2007_01_01_oldShoots/ss_005.jpg"}],
-			[300, 206, {pictureSrc: "wallery/data/9_6.jpg",  link: "maxwellito_v1/data/2007_01_01_oldShoots/ss_006.jpg"}],
-			[400, 168, {pictureSrc: "wallery/data/10_1.jpg", link: "maxwellito_v1/data/2009_11_30_freedomRecordStickers/ss_002.jpg"}],
-			[116, 210, {pictureSrc: "wallery/data/11_1.jpg", link: "maxwellito_v1/data/2007_07_12_theHorrorShow/ss_001.jpg"}],
-			[210, 210, {pictureSrc: "wallery/data/11_2.jpg", link: "maxwellito_v1/data/2007_07_12_theHorrorShow/ss_002.jpg"}],
-			[210, 110, {pictureSrc: "wallery/data/11_3.jpg", link: "maxwellito_v1/data/2007_07_12_theHorrorShow/ss_003.jpg"}],
-			[110, 210, {pictureSrc: "wallery/data/12_1.jpg", link: "maxwellito_v1/data/2007_12_02_mario/ss_001.jpg"}],
-			[210, 110, {pictureSrc: "wallery/data/12_2.jpg", link: "maxwellito_v1/data/2007_12_02_mario/ss_002.jpg"}],
-			[135, 135, {pictureSrc: "wallery/data/12_3.jpg", link: "maxwellito_v1/data/2007_12_02_mario/ss_003.jpg"}],
-			[200, 430, {pictureSrc: "wallery/data/13_1.png", link: "maxwellito_v1/data/2009_10_27_asteroids/ss_001.jpg"}],
-			[274, 274, {pictureSrc: "wallery/data/13_2.png", link: "maxwellito_v1/data/2009_10_27_asteroids/ss_002.png"}],
-			[221, 232, {pictureSrc: "wallery/data/14_1.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_001.jpg"}],
-			[300, 133, {pictureSrc: "wallery/data/14_2.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_002.jpg"}],
-			[110, 110, {pictureSrc: "wallery/data/14_3.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_003.jpg"}],
-			[110, 110, {pictureSrc: "wallery/data/14_4.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_004.jpg"}],
-			[320, 110, {pictureSrc: "wallery/data/14_5.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_005.jpg"}],
-			[150, 150, {pictureSrc: "wallery/data/14_6.jpg", link: "maxwellito_v1/data/2009_10_01_autumn09/ss_006.jpg"}],
-			[220, 100, {pictureSrc: "wallery/data/15_1.jpg", link: "maxwellito_v1/data/2009_05_02_requiescatInPace/ss_001.jpg"}],
-			[285, 400, {pictureSrc: "wallery/data/15_2.jpg", link: "maxwellito_v1/data/2009_05_02_requiescatInPace/ss_002.jpg"}],
-			[380, 258, {pictureSrc: "wallery/data/15_3.jpg", link: "maxwellito_v1/data/2009_05_02_requiescatInPace/ss_003.jpg"}],
-			[180, 120, {pictureSrc: "wallery/data/16_X.jpg", link: "maxwellito_v1/data/2009_06_08_skateboard/_main.jpg"}],
-			[110, 335, {pictureSrc: "wallery/data/16_1.jpg", link: "maxwellito_v1/data/2009_06_08_skateboard/ss_001.jpg"}],
-			[133, 200, {pictureSrc: "wallery/data/16_2.jpg", link: "maxwellito_v1/data/2009_06_08_skateboard/ss_002.jpg"}],
-			[280, 177, {pictureSrc: "wallery/data/17_1.png", link: "maxwellito_v1/data/2010_05_05_typoworks/ss_001.png"}],
-			[180, 270, {pictureSrc: "wallery/data/17_2.jpg", link: "maxwellito_v1/data/2010_05_05_typoworks/ss_002.jpg"}],
-			[467, 140, {pictureSrc: "wallery/data/18_X.png", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_001.png"}],
-			[129, 113, {pictureSrc: "wallery/data/18_1.png", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_001.png"}],
-			[119, 302, {pictureSrc: "wallery/data/18_2.jpg", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_002.jpg"}],
-			[252, 250, {pictureSrc: "wallery/data/18_3.jpg", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_003.jpg"}],
-			[176, 100, {pictureSrc: "wallery/data/18_4.jpg", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_004.jpg"}],
-			[120, 220, {pictureSrc: "wallery/data/18_5.jpg", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_005.jpg"}],
-			[215, 215, {pictureSrc: "wallery/data/18_6.jpg", link: "maxwellito_v1/data/2010_07_05_edBangerXXgorillaz/ss_006.jpg"}],
-			[280, 285, {pictureSrc: "wallery/data/19_X.jpg", link: "maxwellito_v1/data/2010_08_15_itWasMadeFor/_main.jpg"}],
-			[320, 140, {pictureSrc: "wallery/data/19_1.jpg", link: "maxwellito_v1/data/2010_08_15_itWasMadeFor/ss_001.jpg"}],
-			[150, 250, {pictureSrc: "wallery/data/19_2.jpg", link: "maxwellito_v1/data/2010_08_15_itWasMadeFor/ss_002.jpg"}],
-			[150, 150, {pictureSrc: "wallery/data/19_3.jpg", link: "maxwellito_v1/data/2010_08_15_itWasMadeFor/ss_003.jpg"}],
-			[158, 120, {pictureSrc: "wallery/data/19_4.jpg", link: "maxwellito_v1/data/2010_08_15_itWasMadeFor/ss_004.jpg"}],
-			[200, 300, {pictureSrc: "wallery/data/20_1.jpg", link: "maxwellito_v1/data/2010_09_20_sponge_bob/ss_001.jpg"}],
-			[279, 200, {pictureSrc: "wallery/data/20_2.jpg", link: "maxwellito_v1/data/2010_09_20_sponge_bob/ss_002.jpg"}],
-			[295, 200, {pictureSrc: "wallery/data/20_3.jpg", link: "maxwellito_v1/data/2010_09_20_sponge_bob/ss_003.jpg"}],
-			[280, 187, {pictureSrc: "wallery/data/20_4.jpg", link: "maxwellito_v1/data/2010_09_20_sponge_bob/ss_004.jpg"}],
-			[350, 350, {pictureSrc: "wallery/data/21_1.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_001.jpg"}],
-			[319, 280, {pictureSrc: "wallery/data/21_2.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_002.jpg"}],
-			[281, 300, {pictureSrc: "wallery/data/21_3.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_003.jpg"}],
-			[250, 250, {pictureSrc: "wallery/data/21_4.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_004.jpg"}],
-			[172, 200, {pictureSrc: "wallery/data/21_6.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_006.jpg"}],
-			[220, 220, {pictureSrc: "wallery/data/21_7.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_007.jpg"}],
-			[180, 120, {pictureSrc: "wallery/data/21_8.jpg", link: "maxwellito_v1/data/2010_11_05_lomography/ss_008.jpg"}],
-			[120, 116, {pictureSrc: "wallery/data/22_1.jpg", link: "maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg"}], 
-			[195, 261, {pictureSrc: "wallery/data/22_2.jpg", link: "maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg"}],
-			[322, 280, {pictureSrc: "wallery/data/22_3.jpg", link: "maxwellito_v1/data/2010_12_22_getyourfifteen/ss_001.jpg"}]
-		];
+      box.setAttribute('data-related-post-url', '/post/' + (space.data.link || space.data.pictureSrc.split('/')[2]))
 
-		// 
-		var myWall = new Wallery({
-			unit:		myWalleryUnit,
-			mapWidth:	myWalleryWidth,
-			mapHeight:	myWalleryHeight
-		});
-		
-		// Insert all the data
-		myWall.addStack(wallData);
-		myWall.generate();
-		document
-			.getElementById('wallery')
-			.appendChild(myWall.rendering(walleryItemTemplatr));
-	</script>
+      return box;
+    }
+
+    var wallData = [
+      [430, 156, {pictureSrc: "/data/about-me/001.jpg", link:'aboutme'}],
+      [431, 119, {pictureSrc: "/data/about-me/002.jpg", link:'aboutme'}],
+      [200, 323, {pictureSrc: "/data/about-me/003.jpg", link:'aboutme'}],
+      [314, 112, {pictureSrc: "/data/about-me/004.jpg", link:'aboutme'}],
+      [133, 343, {pictureSrc: "/data/about-me/005.jpg", link:'aboutme'}],
+      [258, 270, {pictureSrc: "/data/artwork-part-one/001.jpg", link:'artwork-pt-i'}],
+      [130, 118, {pictureSrc: "/data/artwork-part-one/002.png", link:'artwork-pt-i'}],
+      [324, 125, {pictureSrc: "/data/artwork-part-one/003.jpg", link:'artwork-pt-i'}],
+      [103, 239, {pictureSrc: "/data/artwork-part-one/004.jpg", link:'artwork-pt-i'}],
+      [225, 220, {pictureSrc: "/data/artwork-part-one/005.jpg", link:'artwork-pt-i'}],
+      [229, 105, {pictureSrc: "/data/artwork-part-one/006.jpg", link:'artwork-pt-i'}],
+      [106, 105, {pictureSrc: "/data/artwork-part-one/007.jpg", link:'artwork-pt-i'}],
+      [108, 104, {pictureSrc: "/data/artwork-part-one/008.jpg", link:'artwork-pt-i'}],
+      [420, 107, {pictureSrc: "/data/daft-punk-sampler/001.png", link:'daft-punk-tab'}],
+      [600, 148, {pictureSrc: "/data/daft-punk-sampler/002.jpg", link:'daft-punk-tab'}],
+      [212, 342, {pictureSrc: "/data/daft-punk-sampler/003.jpg", link:'daft-punk-tab'}],
+      [200, 204, {pictureSrc: "/data/ed-banger-xx-gorillaz/001.jpg",}],
+      [102, 207, {pictureSrc: "/data/ed-banger-xx-gorillaz/002.jpg",}],
+      [102, 302, {pictureSrc: "/data/ed-banger-xx-gorillaz/003.jpg",}],
+      [103, 103, {pictureSrc: "/data/ed-banger-xx-gorillaz/004.jpg",}],
+      [218, 219, {pictureSrc: "/data/ed-banger-xx-gorillaz/005.jpg",}],
+      [222, 224, {pictureSrc: "/data/ed-banger-xx-gorillaz/006.jpg",}],
+      [350, 202, {pictureSrc: "/data/fail-illustration/002.jpg", link:'fail'}],
+      [447, 184, {pictureSrc: "/data/fail-illustration/003.jpg", link:'fail'}],
+      [110, 110, {pictureSrc: "/data/fail-illustration/004.jpg", link:'fail'}],
+      [120, 220, {pictureSrc: "/data/it-was-made-for/001.jpg", link:'itwasmadefor'}],
+      [110, 110, {pictureSrc: "/data/it-was-made-for/002.jpg", link:'itwasmadefor'}],
+      [240, 240, {pictureSrc: "/data/it-was-made-for/003.jpg", link:'itwasmadefor'}],
+      [420, 222, {pictureSrc: "/data/it-was-made-for/004.jpg", link:'itwasmadefor'}],
+      [120, 120, {pictureSrc: "/data/it-was-made-for/005.jpg", link:'itwasmadefor'}],
+      [220, 220, {pictureSrc: "/data/jeff-again-lichtenstein/002.png", link:'jeff'}],
+      [300, 206, {pictureSrc: "/data/jeff-again-lichtenstein/003.png", link:'jeff'}],
+      [400, 168, {pictureSrc: "/data/jeff-again-lichtenstein/004.png", link:'jeff'}],
+      [116, 210, {pictureSrc: "/data/jeff-again-lichtenstein/005.png", link:'jeff'}],
+      [210, 210, {pictureSrc: "/data/lomography/001.jpg"}],
+      [210, 110, {pictureSrc: "/data/lomography/002.jpg"}],
+      [110, 210, {pictureSrc: "/data/lomography/003.jpg"}],
+      [210, 110, {pictureSrc: "/data/lomography/004.jpg"}],
+      [135, 135, {pictureSrc: "/data/lomography/005.jpg"}],
+      [200, 430, {pictureSrc: "/data/lomography/006.jpg"}],
+      [274, 274, {pictureSrc: "/data/lomography/007.jpg"}],
+      [221, 232, {pictureSrc: "/data/lomography/008.jpg"}],
+      [300, 133, {pictureSrc: "/data/never-hide-yourself/001.jpg"}],
+      [110, 110, {pictureSrc: "/data/never-hide-yourself/002.jpg"}],
+      [110, 110, {pictureSrc: "/data/never-hide-yourself/003.jpg"}],
+      [320, 110, {pictureSrc: "/data/never-hide-yourself/004.jpg"}],
+      [150, 150, {pictureSrc: "/data/propaganda/001.jpg"}],
+      [220, 100, {pictureSrc: "/data/propaganda/002.jpg"}],
+      [285, 400, {pictureSrc: "/data/propaganda/003.jpg"}],
+      [380, 258, {pictureSrc: "/data/propaganda/004.jpg"}],
+      [180, 120, {pictureSrc: "/data/propaganda/005.jpg"}],
+      [110, 335, {pictureSrc: "/data/propaganda/006.jpg"}],
+      [133, 200, {pictureSrc: "/data/propaganda/007.jpg"}],
+      [280, 177, {pictureSrc: "/data/requiescat-in-pace/001.jpg"}],
+      [180, 270, {pictureSrc: "/data/requiescat-in-pace/002.jpg"}],
+      [467, 140, {pictureSrc: "/data/requiescat-in-pace/003.jpg"}],
+      [129, 113, {pictureSrc: "/data/skateboard-print/001.jpg"}],
+      [119, 302, {pictureSrc: "/data/skateboard-print/002.jpg"}],
+      [252, 250, {pictureSrc: "/data/sponge-bob-tribute/001.jpg"}],
+      [176, 100, {pictureSrc: "/data/sponge-bob-tribute/002.jpg"}],
+      [120, 220, {pictureSrc: "/data/sponge-bob-tribute/003.jpg"}],
+      [215, 215, {pictureSrc: "/data/sponge-bob-tribute/004.jpg"}],
+      [280, 285, {pictureSrc: "/data/tetrispad/001.jpg"}],
+      [320, 140, {pictureSrc: "/data/tetrispad/002.jpg"}],
+      [150, 250, {pictureSrc: "/data/tetrispad/003.jpg"}],
+      [150, 150, {pictureSrc: "/data/toulouse/001.jpg"}],
+      [158, 120, {pictureSrc: "/data/toulouse/002.jpg"}],
+      [200, 300, {pictureSrc: "/data/toulouse/003.jpg"}],
+      [279, 200, {pictureSrc: "/data/toulouse/004.jpg"}],
+      [295, 200, {pictureSrc: "/data/toulouse/005.jpg"}],
+      [280, 187, {pictureSrc: "/data/toulouse/006.jpg"}],
+      [350, 350, {pictureSrc: "/data/triangle/001.jpg"}],
+      [319, 280, {pictureSrc: "/data/triangle/002.jpg"}],
+      [281, 300, {pictureSrc: "/data/triangle/003.jpg"}],
+      [250, 250, {pictureSrc: "/data/vivus/001.png"}],
+      [172, 200, {pictureSrc: "/data/vivus/002.png"}],
+      [220, 220, {pictureSrc: "/data/vivus/003.png"}]
+    ];
+
+    // 
+    var myWall = new Wallery({
+      unit:      myWalleryUnit,
+      mapWidth:  myWalleryWidth,
+      mapHeight: myWalleryHeight
+    });
+    
+    // Insert all the data
+    myWall.addStack(wallData);
+
+    for(var i = 0; i<4; i++) {
+
+      // Generate a new wall
+      myWall.generate();
+
+      // Create the tag and set it in the wallery dom
+      $('<div></div>')
+        .addClass('map')
+        .addClass('map'+i)
+        .width(myWalleryWidth)
+        .height(myWalleryHeight)
+        .html(myWall.rendering(walleryItemTemplatr))
+        .appendTo(myWallery);
+    }
+
+    /** 
+     * Part 2 : Set up the jQuery instance
+     * Display the intro
+     * Of course all of this is useless, it's only for a nice demo page
+     */
+    $("#intro")
+      .delay(400)
+      .slideDown("normal")
+      .click( function(){
+        $("#intro")
+          .slideUp("normal")
+          .delay(400)
+          .queue(function() {
+            $(myWallery).wallery({
+              navigation: 'border',
+              dev:        true,
+              intro:      true,
+              click:      function (e) {
+                            window.location = e.currentTarget.getAttribute('data-related-post-url')
+                          }
+            });
+          });
+      });
+
+  </script>
 
 </body>
 </html>

@@ -21,7 +21,7 @@ var gulp      = require('gulp'),
  *
  */
 gulp.task('distrib', function () {
-  gulp.src('./src/wallery/_build.js')
+  gulp.src('./src/_build.js')
     .pipe(header(banner, { pkg : pkg } ))
     .pipe(gulpImports())
 
@@ -30,6 +30,9 @@ gulp.task('distrib', function () {
 
     .pipe(concat('wallery.min.js'))
     .pipe(uglify({preserveComments: 'some'}))
+    .pipe(gulp.dest('./dist'));
+
+  gulp.src('./src/wallery.jQuery.js')
     .pipe(gulp.dest('./dist'));
 });
 
@@ -42,24 +45,6 @@ gulp.task('lint', function () {
   return gulp.src('./src/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
-});
-
-/**
- * test
- * run Karma on the scripts
- *
- */
-gulp.task('test', function () {
-  // Be sure to return the stream
-  return gulp.src(['src/pathformer.js', 'src/wallery.js', 'test/unit/**.js'])
-    .pipe(karma({
-      configFile: 'test/karma.conf.js',
-      action: 'run'
-    }))
-    .on('error', function (err) {
-      // Make sure failed tests cause gulp to exit non-zero
-      throw err;
-    });
 });
 
 /**
